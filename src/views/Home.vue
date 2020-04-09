@@ -2,40 +2,31 @@
     <div class="home">
         <div class="Yarn_Background"></div>
         <div class="search" v-if="!isSearch">
-            <i class="js-toggle-search iconfont" @click="chekInput"></i>
+            <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
         </div>
         <transition name="el-fade-in-linear">
             <div class="searchInput transition-box" v-if="isSearch">
-                <el-input clearable v-model="input" placeholder="请输入内容" @change="search"></el-input>
+                <el-input autofocus clearable v-model="input" placeholder="请输入内容" @change="search"></el-input>
             </div>
         </transition>
 
-        <!-- <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-        >
-            <el-menu-item index="1">处理中心</el-menu-item>
-            <el-submenu index="2">
-                <template slot="title">我的工作台</template>
-                <el-menu-item index="2-1">选项1</el-menu-item>
-                <el-menu-item index="2-2">选项2</el-menu-item>
-                <el-menu-item index="2-3">选项3</el-menu-item>
-                <el-submenu index="2-4">
-                    <template slot="title">选项4</template>
-                    <el-menu-item index="2-4-1">选项1</el-menu-item>
-                    <el-menu-item index="2-4-2">选项2</el-menu-item>
-                    <el-menu-item index="2-4-3">选项3</el-menu-item>
-                </el-submenu>
-            </el-submenu>
-            <el-menu-item index="3" disabled>消息中心</el-menu-item>
-            <el-menu-item index="4">
-                <a href="https://www.ele.me" target="_blank">订单管理</a>
-            </el-menu-item>
-        </el-menu>-->
+        <div class="menuIcon" v-if="!isSearch" @click="showMenu">
+            <i class="el-icon-s-fold"></i>
+        </div>
+
+        <div class="menu" v-if="isMenu && !isSearch">
+            <el-button-group>
+                <el-button>首页</el-button>
+                <el-button>分类</el-button>
+                <el-button>个人中心</el-button>
+            </el-button-group>
+        </div>
+        <div class="siteHeader123">
+            <img src="../assets/images/omikron.png" alt />
+            <p>This is beauty</p>
+        </div>
         <!-- <el-container>
-            <el-header>Header</el-header>
+            <el-header height="0"></el-header>
             <el-main>Main</el-main>
             <el-footer>Footer</el-footer>
         </el-container>-->
@@ -55,6 +46,7 @@ export default {
         title: ''
       },
       isSearch: false,
+      isMenu: false,
       input: ''
     }
   },
@@ -62,12 +54,13 @@ export default {
     onSubmit () {
       console.log('submit!')
     },
-    chekInput () {
-      this.isSearch = !this.isSearch
-    },
     search () {
-      this.isSearch = !this.isSearch
+      this.isSearch = false
+      this.isMenu = false
       this.input = ''
+    },
+    showMenu () {
+      this.isMenu = !this.isMenu
     }
   }
 }
@@ -76,13 +69,9 @@ export default {
 <style lang="less">
 .el-header,
 .el-footer {
-    background-color: #b3c0d1;
-    color: #333;
     text-align: center;
-    line-height: 60px;
 }
 .el-main {
-    background-color: #e9eef3;
     color: #333;
     text-align: center;
     line-height: 160px;
@@ -124,6 +113,32 @@ body > .el-container {
         margin-right: 20px;
     }
 }
+
+.menuIcon {
+    position: absolute;
+    z-index: 998;
+    top: 2.5em;
+    right: 3em;
+    i {
+        font-size: 30px;
+        line-height: 30px;
+        margin-right: 20px;
+        color: #fff;
+    }
+}
+.menu {
+    max-width: 640px;
+    padding: 0;
+    margin: 0 auto;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 5em;
+    bottom: 0;
+    display: flex; /*所有子元素block或inline都变成行内块元素的样式*/
+    justify-content: center; /*子元素靠右*/
+}
 .js-toggle-search {
     height: 35px;
     width: 35px;
@@ -132,6 +147,7 @@ body > .el-container {
     display: inline;
     -webkit-transition: all 500ms ease-in-out;
     transition: all 500ms ease-in-out;
+    cursor: pointer;
 }
 
 .searchInput {
@@ -142,8 +158,9 @@ body > .el-container {
     width: 100%;
     left: 0;
     right: 0;
-    top: 1.5em;
+    top: 3em;
     bottom: 0;
+    z-index: 3;
     .el-input {
         font-size: 24px;
     }
@@ -161,6 +178,18 @@ body > .el-container {
         -webkit-box-sizing: border-box;
         -moz-box-sizing: border-box;
         box-sizing: border-box;
+    }
+}
+.siteHeader123 {
+    position: relative;
+    padding-top: 120px;
+    text-align: center;
+    img {
+        display: inline-block;
+        width: 100px;
+    }
+    p {
+        color: #fff;
     }
 }
 </style>
