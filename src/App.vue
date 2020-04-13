@@ -33,6 +33,7 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
+    color: rgba(2, 0, 0, .6);
 }
 
 body,

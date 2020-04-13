@@ -25,11 +25,24 @@
             <img src="../assets/images/omikron.png" alt />
             <p>This is beauty</p>
         </div>
-        <!-- <el-container>
+
+        <el-container>
             <el-header height="0"></el-header>
-            <el-main>Main</el-main>
+            <el-main>
+                <el-card class="box-card" v-for="item in articles" :key="item.id">
+                    <div class="titleBox">
+                        <el-avatar :size="60" src @error="errorHandler">
+                            <img
+                                src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
+                            />
+                        </el-avatar>
+                        <span class="title">{{item.title}}</span>
+                    </div>
+                    <div class="content">{{item.content}}</div>
+                </el-card>
+            </el-main>
             <el-footer>Footer</el-footer>
-        </el-container>-->
+        </el-container>
     </div>
 </template>
 
@@ -47,8 +60,17 @@ export default {
       },
       isSearch: false,
       isMenu: false,
-      input: ''
+      input: '',
+      articles: []
     }
+  },
+  created () {
+    this.getarticles()
+    // fetch('http://127.0.0.1:8000/api/articles', {
+    //   method: 'get'
+    // }).then(result => {
+    //   console.log(result)
+    // })
   },
   methods: {
     onSubmit () {
@@ -61,6 +83,15 @@ export default {
     },
     showMenu () {
       this.isMenu = !this.isMenu
+    },
+    async getarticles () {
+      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
+      const res = await this.Fetch('/api/articles')
+      console.log('res', res)
+      this.articles = res
+    },
+    errorHandler () {
+      return true
     }
   }
 }
@@ -70,11 +101,11 @@ export default {
 .el-header,
 .el-footer {
     text-align: center;
+    background-color: pink;
 }
 .el-main {
     color: #333;
-    text-align: center;
-    line-height: 160px;
+    background-color: #fff;
 }
 
 body > .el-container {
@@ -190,6 +221,24 @@ body > .el-container {
     }
     p {
         color: #fff;
+    }
+}
+
+.box-card {
+    margin: 18px 0;
+    .titleBox {
+        display: flex;
+        padding: 1.3rem 1.3rem;
+        background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(rgba(0, 0, 255, 0.5)));
+        .title {
+        display: inline-block;
+        margin: 10px;
+        width: 100%;
+    }
+    }
+
+    .content {
+        padding: 1.3rem 1.3rem 2rem;
     }
 }
 </style>
