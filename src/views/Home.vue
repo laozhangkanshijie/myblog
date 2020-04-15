@@ -1,42 +1,12 @@
 <template>
     <div class="home">
-        <div class="Yarn_Background"></div>
-        <div class="search" v-if="!isSearch">
-            <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
-        </div>
-        <transition name="el-fade-in-linear">
-            <div class="searchInput transition-box" v-if="isSearch">
-                <el-input autofocus clearable v-model="input" placeholder="请输入内容" @change="search"></el-input>
-            </div>
-        </transition>
-
-        <div class="menuIcon" v-if="!isSearch" @click="showMenu">
-            <i class="el-icon-s-fold"></i>
-        </div>
-
-        <div class="menu" v-if="isMenu && !isSearch">
-            <el-button-group>
-                <el-button>首页</el-button>
-                <el-button>分类</el-button>
-                <el-button>个人中心</el-button>
-            </el-button-group>
-        </div>
-        <div class="siteHeader123">
-            <img src="../assets/images/omikron.png" alt />
-            <p>This is beauty</p>
-        </div>
-
         <el-container>
             <el-header height="0"></el-header>
             <el-main>
                 <el-card class="box-card" v-for="item in articles" :key="item.id">
                     <div class="titleBox">
-                        <el-avatar :size="60" src @error="errorHandler">
-                            <img
-                                src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-                            />
-                        </el-avatar>
-                        <span class="title">{{item.title}}</span>
+                        <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
+                        <span class="title" @click="toDetail(item.id)">{{item.title}}</span>
                     </div>
                     <div class="content">{{item.content}}</div>
                 </el-card>
@@ -49,29 +19,28 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
+import { baseUrl } from '@/helper/api/env'
 
 export default {
   name: 'Home',
   components: {},
   data () {
     return {
-      form: {
-        title: ''
-      },
-      isSearch: false,
-      isMenu: false,
+      baseUrl: baseUrl,
       input: '',
-      articles: []
+      articles: [],
+      article: {}
     }
   },
-  created () {
-    this.getarticles()
-    // fetch('http://127.0.0.1:8000/api/articles', {
+  mounted () {
+    // fetch('/api/articles', {
     //   method: 'get'
     // }).then(result => {
     //   console.log(result)
     // })
+    this.getarticles()
   },
+
   methods: {
     onSubmit () {
       console.log('submit!')
@@ -90,9 +59,16 @@ export default {
       console.log('res', res)
       this.articles = res
     },
-    errorHandler () {
-      return true
+    async getarticle (id) {
+      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
+      const res = await this.Fetch('/api/articles/' + id)
+      console.log('detailres', res)
+      this.article = res
+    },
+    toDetail (id) {
+      this.$router.push(`/article/${id}`)
     }
+
   }
 }
 </script>
@@ -101,144 +77,64 @@ export default {
 .el-header,
 .el-footer {
     text-align: center;
-    background-color: pink;
+    // background-color: pink;
 }
 .el-main {
     color: #333;
     background-color: #fff;
-}
-
-body > .el-container {
-    margin-bottom: 40px;
-}
-
-.el-container:nth-child(5) .el-aside,
-.el-container:nth-child(6) .el-aside {
-    line-height: 260px;
-}
-
-.el-container:nth-child(7) .el-aside {
-    line-height: 320px;
-}
-
-.Yarn_Background {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -webkit-background-size: cover;
-    background-size: cover;
-    background-position: top center;
-    z-index: -999;
-    background-image: url(../assets/images/47fb3c_.jpg);
-}
-.search {
-    position: absolute;
-    z-index: 998;
-    top: 2.5em;
-    left: 3em;
-    i {
-        font-size: 30px;
-        line-height: 30px;
-        margin-right: 20px;
-    }
-}
-
-.menuIcon {
-    position: absolute;
-    z-index: 998;
-    top: 2.5em;
-    right: 3em;
-    i {
-        font-size: 30px;
-        line-height: 30px;
-        margin-right: 20px;
-        color: #fff;
-    }
-}
-.menu {
-    max-width: 640px;
-    padding: 0;
-    margin: 0 auto;
-    position: fixed;
-    width: 100%;
-    left: 0;
-    right: 0;
-    top: 5em;
-    bottom: 0;
-    display: flex; /*所有子元素block或inline都变成行内块元素的样式*/
-    justify-content: center; /*子元素靠右*/
-}
-.js-toggle-search {
-    height: 35px;
-    width: 35px;
-    color: rgba(255, 255, 255, 1);
-    float: left;
-    display: inline;
-    -webkit-transition: all 500ms ease-in-out;
-    transition: all 500ms ease-in-out;
-    cursor: pointer;
-}
-
-.searchInput {
-    max-width: 640px;
-    padding: 0 20px;
-    margin: 0 auto;
-    position: fixed;
-    width: 100%;
-    left: 0;
-    right: 0;
-    top: 3em;
-    bottom: 0;
-    z-index: 3;
-    .el-input {
-        font-size: 24px;
-    }
-    .el-input__inner {
-        text-align: center;
-        font-family: PingFang SC, "Hiragino Sans GB", "Source Han Sans CN",
-            Roboto, "Microsoft Yahei", sans-serif;
-        font-size: 24px;
-        font-size: 1.5rem;
-        background: rgba(255, 255, 255, 0.6);
-        color: #fff;
-        padding: 12px 0;
-        width: 100%;
-        border-radius: 50px;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-}
-.siteHeader123 {
-    position: relative;
-    padding-top: 120px;
-    text-align: center;
-    img {
-        display: inline-block;
-        width: 100px;
-    }
-    p {
-        color: #fff;
-    }
+    padding: 1rem;
 }
 
 .box-card {
-    margin: 18px 0;
+    margin: 1rem 0;
+
     .titleBox {
         display: flex;
         padding: 1.3rem 1.3rem;
-        background:-webkit-gradient(linear, 0 0, 0 bottom, from(#ff0000), to(rgba(0, 0, 255, 0.5)));
+        background: -webkit-linear-gradient(
+            top,
+            rgba(105, 105, 105, 0.1) 0%,
+            #fff 85%
+        );
+        background: linear-gradient(
+            to bottom,
+            rgba(105, 105, 105, 0.1) 0%,
+            #fff 85%
+        );
+        border-radius: 6px 6px 0 0;
+
         .title {
-        display: inline-block;
-        margin: 10px;
-        width: 100%;
-    }
+            display: inline-block;
+            padding: 10px;
+            width: 100%;
+            font-size: 1.3rem;
+            cursor: pointer;
+        }
+        .title:hover {
+            color: #000;
+        }
     }
 
     .content {
-        padding: 1.3rem 1.3rem 2rem;
+        padding: 0 1.3rem;
+        word-wrap: break-word;
+        max-height: 4rem;
+        text-overflow: -o-ellipsis-lastline;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; //这个表示要显示几行
+        -webkit-box-orient: vertical;
+    }
+}
+.articleDetail {
+    background-color: #fff;
+    i {
+        font-size: 20px;
+    }
+    .post_title {
+        text-align: center;
     }
 }
 </style>
