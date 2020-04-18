@@ -1,12 +1,13 @@
 <template>
     <div id="app">
         <div class="Yarn_Background"></div>
+        <el-backtop :visibility-height="150" style="right: 30px; bottom: 30px;"><i class="el-icon-caret-top"></i></el-backtop>
         <div class="search" v-if="!isSearch">
             <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
         </div>
         <transition name="el-fade-in-linear">
             <div class="searchInput transition-box" v-if="isSearch">
-                <el-input autofocus clearable v-model="input" placeholder="请输入内容" @change="search"></el-input>
+                <el-input clearable v-model="input" placeholder="请输入内容" @blur="cancelSearch" @keyup.enter.native = 'search'></el-input>
             </div>
         </transition>
 
@@ -43,17 +44,35 @@ export default {
       baseUrl: baseUrl,
       isSearch: false,
       isMenu: false,
-      input: ''
+      input: '',
+      searchReslut: []
     }
   },
   methods: {
     onSubmit () {
       console.log('submit!')
     },
-    search () {
+    cancelSearch (event) {
+      console.log('取消搜索')
       this.isSearch = false
       this.isMenu = false
       this.input = ''
+    },
+    search () {
+      console.log(this.input)
+
+      this.isSearch = false
+      this.isMenu = false
+      this.input = ''
+    },
+    async getarticles () {
+      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
+      const res = await this.Fetch('/api/articles/', { search: this.input })
+      console.log('res', res)
+      if (res.code !== 0) {
+        return
+      }
+      this.searchReslut = res.data.data
     },
     showMenu () {
       this.isMenu = !this.isMenu
@@ -145,6 +164,10 @@ body > .el-container {
 
 .el-container:nth-child(7) .el-aside {
     line-height: 320px;
+}
+
+.el-backtop {
+    color: #000;
 }
 
 .Yarn_Background {

@@ -10,6 +10,7 @@
                     </div>
                     <div class="content">{{item.content}}</div>
                 </el-card>
+                <el-pagination :page-size="20" :pager-count="3" layout="prev, pager, next" :total="1000"></el-pagination>
             </el-main>
             <el-footer>Footer</el-footer>
         </el-container>
@@ -24,12 +25,14 @@ import { baseUrl } from '@/helper/api/env'
 export default {
   name: 'Home',
   components: {},
+  props: [''],
   data () {
     return {
       baseUrl: baseUrl,
       input: '',
       articles: [],
-      article: {}
+      article: {},
+      total: 0
     }
   },
   mounted () {
@@ -55,20 +58,18 @@ export default {
     },
     async getarticles () {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles')
+      const res = await this.Fetch('/api/articles/')
       console.log('res', res)
-      this.articles = res
-    },
-    async getarticle (id) {
-      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/' + id)
-      console.log('detailres', res)
-      this.article = res
+      if (res.code !== 0) {
+        return
+      }
+      console.log('data', res.data)
+      this.articles = res.data.data
+      this.total = res.data.total
     },
     toDetail (id) {
       this.$router.push(`/article/${id}`)
     }
-
   }
 }
 </script>
@@ -126,15 +127,6 @@ export default {
         display: -webkit-box;
         -webkit-line-clamp: 3; //这个表示要显示几行
         -webkit-box-orient: vertical;
-    }
-}
-.articleDetail {
-    background-color: #fff;
-    i {
-        font-size: 20px;
-    }
-    .post_title {
-        text-align: center;
     }
 }
 </style>
