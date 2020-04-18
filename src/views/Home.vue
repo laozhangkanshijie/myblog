@@ -10,7 +10,7 @@
                     </div>
                     <div class="content">{{item.content}}</div>
                 </el-card>
-                <el-pagination :page-size="20" :pager-count="3" layout="prev, pager, next" :total="1000"></el-pagination>
+                <!-- <el-pagination :page-size="20" :pager-count="3" layout="prev, pager, next" :total="1000"></el-pagination> -->
             </el-main>
             <el-footer>Footer</el-footer>
         </el-container>
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       baseUrl: baseUrl,
-      input: '',
+      // searchText: this.$store.state.searchContent,
       articles: [],
       article: {},
       total: 0
@@ -45,20 +45,12 @@ export default {
   },
 
   methods: {
-    onSubmit () {
-      console.log('submit!')
-    },
-    search () {
-      this.isSearch = false
-      this.isMenu = false
-      this.input = ''
-    },
     showMenu () {
       this.isMenu = !this.isMenu
     },
-    async getarticles () {
+    async getarticles (val = '') {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/')
+      const res = await this.Fetch('/api/articles/', { search: val })
       console.log('res', res)
       if (res.code !== 0) {
         return
@@ -69,6 +61,19 @@ export default {
     },
     toDetail (id) {
       this.$router.push(`/article/${id}`)
+    }
+  },
+  computed: {
+    // 计算属性的 getter
+    searchText: function () {
+      // `this` 指向 vm 实例
+      return this.$store.state.searchContent
+    }
+  },
+  watch: {
+    searchText: function (val) {
+      console.log('watch', val)
+      this.getarticles(val)
     }
   }
 }

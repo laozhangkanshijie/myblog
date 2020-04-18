@@ -60,7 +60,7 @@ export default {
     },
     search () {
       console.log(this.input)
-
+      this.$store.commit('changeSC', this.input)
       this.isSearch = false
       this.isMenu = false
       this.input = ''
