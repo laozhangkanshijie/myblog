@@ -10,9 +10,15 @@
                     </div>
                     <div class="content">{{item.content}}</div>
                 </el-card>
-                <!-- <el-pagination :page-size="20" :pager-count="3" layout="prev, pager, next" :total="1000"></el-pagination> -->
+                <el-pagination
+                    :page-size="limit"
+                    :pager-count="5"
+                    layout="prev, pager, next"
+                    :total="total"
+                    @current-change="pageChange"
+                ></el-pagination>
             </el-main>
-            <el-footer>Footer</el-footer>
+            <el-footer height="0"></el-footer>
         </el-container>
     </div>
 </template>
@@ -32,10 +38,12 @@ export default {
       // searchText: this.$store.state.searchContent,
       articles: [],
       article: {},
-      total: 0
+      total: 0,
+      limit: 3,
+      offset: 0
     }
   },
-  mounted () {
+  created () {
     // fetch('/api/articles', {
     //   method: 'get'
     // }).then(result => {
@@ -48,16 +56,28 @@ export default {
     showMenu () {
       this.isMenu = !this.isMenu
     },
-    async getarticles (val = '') {
+    async getarticles (todo = 'load') {
+      const search = this.searchText
+      const limit = this.limit
+      const offset = this.offset
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/', { search: val })
+      const res = await this.Fetch('/api/articles/', {
+        search,
+        limit,
+        offset
+      })
       console.log('res', res)
-      if (res.code !== 0) {
+      if (res.code !== 200) {
         return
       }
       console.log('data', res.data)
+
       this.articles = res.data.data
       this.total = res.data.total
+    },
+    pageChange (page) {
+      this.offset = (page - 1) * this.limit
+      this.getarticles()
     },
     toDetail (id) {
       this.$router.push(`/article/${id}`)
@@ -73,7 +93,9 @@ export default {
   watch: {
     searchText: function (val) {
       console.log('watch', val)
-      this.getarticles(val)
+      // 搜索时先重置到起始查询位置
+      this.offset = 0
+      this.getarticles()
     }
   }
 }
@@ -84,6 +106,7 @@ export default {
 .el-footer {
     text-align: center;
     // background-color: pink;
+    height: 0;
 }
 .el-main {
     color: #333;
@@ -133,5 +156,9 @@ export default {
         -webkit-line-clamp: 3; //这个表示要显示几行
         -webkit-box-orient: vertical;
     }
+}
+
+.el-pagination {
+    text-align: center;
 }
 </style>

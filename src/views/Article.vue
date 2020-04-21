@@ -36,16 +36,16 @@ export default {
 
   methods: {
     toList () {
-      this.$router.go(-1)
+      this.$router.push('/')
     },
     async getarticle (id) {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
       const res = await this.Fetch('/api/articles/' + id + '/')
-      // if (res.code !== 0) {
-      //   return
-      // }
+      if (res.code !== 200) {
+        return
+      }
       console.log('detailres', res)
-      this.article = res
+      this.article = res.data
     }
   }
 }

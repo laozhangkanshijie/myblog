@@ -1,13 +1,21 @@
 <template>
     <div id="app">
         <div class="Yarn_Background"></div>
-        <el-backtop :visibility-height="150" style="right: 30px; bottom: 30px;"><i class="el-icon-caret-top"></i></el-backtop>
+        <el-backtop :visibility-height="150" style="right: 30px; bottom: 30px;">
+            <i class="el-icon-caret-top"></i>
+        </el-backtop>
         <div class="search" v-if="!isSearch">
             <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
         </div>
         <transition name="el-fade-in-linear">
             <div class="searchInput transition-box" v-if="isSearch">
-                <el-input clearable v-model="input" placeholder="请输入内容" @blur="cancelSearch" @keyup.enter.native = 'search'></el-input>
+                <el-input
+                    clearable
+                    v-model="input"
+                    placeholder="请输入内容"
+                    @blur="cancelSearch"
+                    @keyup.enter.native="search"
+                ></el-input>
             </div>
         </transition>
 
@@ -26,7 +34,9 @@
             <img src="./assets/images/omikron.png" alt />
             <p>This is beauty</p>
         </div>
-        <router-view></router-view>
+        <keep-alive include='Home'>
+            <router-view></router-view>
+        </keep-alive>
     </div>
 </template>
 
@@ -67,7 +77,9 @@ export default {
     },
     async getarticles () {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/', { search: this.input })
+      const res = await this.Fetch('/api/articles/', {
+        search: this.input
+      })
       console.log('res', res)
       if (res.code !== 0) {
         return
