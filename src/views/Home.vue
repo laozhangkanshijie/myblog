@@ -1,5 +1,6 @@
 <template>
     <div class="home">
+        <siteHeader></siteHeader>
         <el-container>
             <el-header height="0"></el-header>
             <el-main>
@@ -27,15 +28,19 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { baseUrl } from '@/helper/api/env'
+import siteHeader from '@/components/Header'
+import { BASE_URL } from '@/helper/api/env'
+console.log('baseurl', BASE_URL)
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    siteHeader
+  },
   props: [''],
   data () {
     return {
-      baseUrl: baseUrl,
+      baseUrl: BASE_URL,
       // searchText: this.$store.state.searchContent,
       articles: [],
       article: {},
@@ -62,7 +67,7 @@ export default {
       const limit = this.limit
       const offset = this.offset
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/', {
+      const res = await this.API.get('/api/articles/', {
         search,
         limit,
         offset
@@ -141,6 +146,7 @@ export default {
             cursor: pointer;
         }
         .title:hover {
+            color: #303133;
             font-weight: 700;
         }
     }

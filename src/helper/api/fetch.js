@@ -1,7 +1,7 @@
-import { baseUrl } from './env'
+import { BASE_URL } from './env'
 export default async (url = '', data = {}, type = 'GET', method = 'fetch') => {
   type = type.toUpperCase()
-  url = baseUrl + url
+  url = BASE_URL + url
 
   // 此处规定get请求的参数使用时放在data中，如同post请求
   if (type === 'GET') {

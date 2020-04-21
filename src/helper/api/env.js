@@ -4,11 +4,13 @@
 */
 
 let baseUrl = ''
-const routerMode = 'history'
+// const routerMode = 'history'
 if (process.env.NODE_ENV === 'development') {
   baseUrl = 'http://127.0.0.1:8000'
 } else {
   baseUrl = 'http://xxxx这里是线上地址xxx'
 }
 
-export { baseUrl, routerMode }
+export { baseUrl as BASE_URL }
+
+// export const BASE_URL = process.env.REACT_APP_URL
