@@ -8,6 +8,7 @@
                         <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
                         <span class="title" @click="toDetail(item.id)">{{item.title}}</span>
                     </div>
+                    <div class="userName">作者：<span>{{item.user}}</span></div>
                     <div class="content">{{item.content}}</div>
                 </el-card>
                 <el-pagination
@@ -119,7 +120,7 @@ export default {
 
     .titleBox {
         display: flex;
-        padding: 1.3rem 1.3rem;
+        padding: 1.3rem 1.3rem 0;
         background: -webkit-linear-gradient(
             top,
             rgba(105, 105, 105, 0.1) 0%,
@@ -140,10 +141,12 @@ export default {
             cursor: pointer;
         }
         .title:hover {
-            color: #000;
+            font-weight: 700;
         }
     }
-
+    .userName {
+        padding: 0 1.3rem;
+    }
     .content {
         padding: 0 1.3rem;
         word-wrap: break-word;
@@ -156,6 +159,7 @@ export default {
         -webkit-line-clamp: 3; //这个表示要显示几行
         -webkit-box-orient: vertical;
     }
+
 }
 
 .el-pagination {
