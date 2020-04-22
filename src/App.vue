@@ -52,6 +52,13 @@ button {
     border: 0;
     font-size: 100%;
 }
+
+ol {
+    padding: 0;
+    list-style: none;
+    counter-reset: sectioncounter
+}
+
 *,
 *:after,
 *:before {
