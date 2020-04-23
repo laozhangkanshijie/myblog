@@ -8,7 +8,7 @@
             <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
         </div>
         <transition name="el-fade-in-linear">
-            <div class="searchInput transition-box" v-if="isSearch">
+            <div class="searchInput transition-box" v-show="isSearch">
                 <el-input
                     clearable
                     v-model="input"
@@ -27,7 +27,7 @@
             <el-button-group>
                 <el-button>首页</el-button>
                 <el-button>分类</el-button>
-                <el-button>个人中心</el-button>
+                <el-button @click="toMy">个人中心</el-button>
             </el-button-group>
         </div>
         <div class="siteHeader123">
@@ -39,6 +39,7 @@
 
 <script>
 import { baseUrl } from '@/helper/api/env'
+
 export default {
   data () {
     return {
@@ -79,6 +80,10 @@ export default {
     },
     showMenu () {
       this.isMenu = !this.isMenu
+    },
+    toMy () {
+      console.log('my')
+      this.$router.push('my')
     }
   }
 }
@@ -124,9 +129,10 @@ export default {
 }
 .menu {
     max-width: 640px;
+    height: 100px;
     padding: 0;
     margin: 0 auto;
-    position: fixed;
+    position: absolute;
     width: 100%;
     left: 0;
     right: 0;
@@ -134,6 +140,7 @@ export default {
     bottom: 0;
     display: flex; /*所有子元素block或inline都变成行内块元素的样式*/
     justify-content: center; /*子元素靠右*/
+    z-index: 2;
 }
 .js-toggle-search {
     height: 35px;
@@ -178,8 +185,8 @@ export default {
 }
 .siteHeader123 {
     position: relative;
-    padding-top: 120px;
     text-align: center;
+    padding-top: 120px;
     img {
         display: inline-block;
         width: 100px;

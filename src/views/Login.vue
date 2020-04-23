@@ -6,9 +6,12 @@
       </div>
       <el-form ref="loginFormRef" :model="loginForm" :rules="loginFormRules" label-width="0px" class="login_form">
           <el-form-item prop="username">
+            <div>账号：zhanghao3</div>
             <el-input v-model="loginForm.username"></el-input>
+
           </el-form-item>
           <el-form-item prop="password">
+            <div>密码：123456</div>
             <el-input type="password" v-model='loginForm.password'></el-input>
           </el-form-item>
           <el-form-item class="btns">
@@ -59,23 +62,26 @@ export default {
         if (!valid) return
         this.loading = true
         this.loadingtext = '登录中'
+        const _this = this
         setTimeout(async () => {
         //   const { data: res } = await this.$http.post('login/', this.loginForm)
         //   const res = await this.Fetch('/login/', this.loginForm, 'POST')
-          const res = await this.API.postFormData('/login/', formData)
+          const res = await _this.API.postFormData('/api/gettoken/', formData)
           console.log(res)
-          if (!('token' in res)) {
-            this.loading = false
-            this.loadingtext = '登录'
-            return this.$message.error('登录失败')
+          if (res.code !== 200) {
+            _this.loading = false
+            _this.loadingtext = '登录'
+            return _this.$message.error('登录失败')
           }
-          this.loading = false
-          this.loadingtext = '登录'
-          this.$message.success('登录成功')
-
-          Auth.token = res.token
-        //   this.$router.push('/home')
-        }, 500)
+          _this.loading = false
+          _this.loadingtext = '登录'
+          _this.$message.success('登录成功')
+          // 保存token
+          Auth.token = res.data.token
+          // ！！！ query在$route里
+          const redirect = decodeURIComponent(_this.$route.query.redirect || '/')
+          _this.$router.push(redirect)
+        }, 300)
       })
     }
   }

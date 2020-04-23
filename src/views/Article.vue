@@ -1,6 +1,6 @@
 <template>
     <div class="articleDetail">
-        <div style>
+        <div >
             <span class="backBox" @click="toList">
                 <i class="el-icon-arrow-left"></i>
                 返回
@@ -23,6 +23,7 @@
                 </el-collapse-item>
             </el-collapse>-->
             <ol class="commentlist">
+                <div class="" v-if="haveComments">暂无评论</div>
                 <li v-for="item in comments" :key="item.id">
                     <div class="top">
                         <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
@@ -126,6 +127,12 @@ export default {
         }
       })
       // this.article = res.data
+    }
+  },
+  computed: {
+    // 是否有评论内容
+    haveComments () {
+      return !this.comments.length
     }
   }
 }
