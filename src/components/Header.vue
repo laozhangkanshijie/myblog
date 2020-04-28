@@ -38,12 +38,10 @@
 </template>
 
 <script>
-import { baseUrl } from '@/helper/api/env'
 
 export default {
   data () {
     return {
-      baseUrl: baseUrl,
       isSearch: false,
       isMenu: false,
       input: '',
