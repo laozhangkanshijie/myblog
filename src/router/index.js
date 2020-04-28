@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Article from '../views/Article.vue'
-import Login from '../views/Login.vue'
-import My from '../views/My.vue'
-import Category from '../views/Category.vue'
 
 import { Auth } from '@/helper/api/auth'
+
+// import Home from '../views/Home.vue'
+const Home = () => import(/* webpackChunkName: "group-foo" */ '../views/Home.vue')
+// import Article from '../views/Article.vue'
+const Article = () => import(/* webpackChunkName: "group-foo" */ '../views/Article.vue')
+// import Login from '../views/Login.vue'
+const Login = () => import(/* webpackChunkName: "group-foo" */ '../views/Login.vue')
+// import My from '../views/My.vue'
+const My = () => import(/* webpackChunkName: "group-foo" */ '../views/My.vue')
+// import Category from '../views/Category.vue'
+const Category = () => import(/* webpackChunkName: "group-foo" */ '../views/Category.vue')
 
 Vue.use(VueRouter)
 
