@@ -27,7 +27,6 @@ export class API {
   }
 
   static async _request (url, params, urlParams, method = 'GET', type = 'json', withToken = false) {
-    console.log('withtoken', withToken)
     const args = urlParams ? API.parseQueryString(urlParams, true) : ''
     const promise = (await fetch(BASE_URL + url + args, {
       method,
@@ -48,7 +47,6 @@ export class API {
   }
 
   static async get (url, urlParams) {
-    console.log('api.get()', url)
     return (await API._request(url, undefined, urlParams, undefined, null, withToken(url)))
   }
 

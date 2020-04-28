@@ -1,5 +1,8 @@
 <template>
     <div class="articles">
+      <div v-if="articles.length === 0">
+        没有文章哦！
+      </div>
         <el-card class="box-card" v-for="item in articles" :key="item.id">
             <div class="titleBox">
                 <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
@@ -38,6 +41,7 @@ export default {
     }
   },
   created () {
+    console.log('created')
     this.getarticles()
   },
   beforeRouteEnter: (to, from, next) => { // 写在当前组件
@@ -64,6 +68,7 @@ export default {
       this.total = res.data.total
     },
     pageChange (page) {
+      console.log('pageChange')
       this.offset = (page - 1) * this.limit
       console.log('offset', this.offset)
       this.getarticles()
@@ -88,6 +93,7 @@ export default {
     },
     '$route' () {
       if (this.$route.path === '/') {
+        console.log('路由改变/')
         this.$store.commit('changeSC', '')
         this.getarticles()
       }

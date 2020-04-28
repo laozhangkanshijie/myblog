@@ -9,6 +9,7 @@
         <h1 class="post_title">{{article.title}}</h1>
         <div>
             <i class="el-icon-user"></i>
+            作者：
             <span>{{article.user}}</span>
             创建时间：
             <span>{{article.date_publish}}</span>

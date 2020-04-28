@@ -5,9 +5,7 @@
                 <i class="el-icon-arrow-left"></i>
                 返回首页
             </span>
-            <span class="quit" @click="quit">
-                退出
-            </span>
+            <span class="quit" @click="quit">退出</span>
         </div>
         <el-menu
             :default-active="activeIndex"
@@ -18,20 +16,34 @@
             <el-menu-item index="1">我的文章</el-menu-item>
             <el-menu-item index="2">个人信息</el-menu-item>
         </el-menu>
+        <Articles v-if="activeIndex === '1'"></Articles>
+
+        <div class="userInfo" v-if="activeIndex === '2'">
+            <el-avatar fit="cover" shape="square" :src="userInfo.avatar"></el-avatar>
+            <div class="userName">
+                <span>{{userInfo.username}}</span>
+                <div>邮箱：{{userInfo.email ? userInfo.email:'暂无'}}</div>
+                <div>QQ：{{userInfo.qq ? userInfo.qq:'暂无'}}</div>
+                <div>电话：{{userInfo.mobile ? userInfo.mobile :'暂无'}}</div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { Auth } from '@/helper/api/auth'
-
+import Articles from '@/components/Articles'
 export default {
+  components: {
+    Articles
+  },
   data () {
     return {
-      activeIndex: '1'
+      activeIndex: '1',
+      userInfo: {}
     }
   },
-  created () {
-    // this.getUserInfo()
+  mounted () {
     this.getUser()
   },
   methods: {
@@ -43,25 +55,32 @@ export default {
       this.$router.push('/login')
     },
     handleSelect (key, keyPath) {
-      console.log(key, keyPath)
-    },
-    async getUserInfo () {
-      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.API.get('/api/userinfo/', { token: Auth.token })
-      console.log('res', res)
-      // if (res.code !== 200) {
-      //   return
+      console.log(key)
+      this.activeIndex = key
+      // if (key === '2') {
+      //   this.getUser()
       // }
-      // this.Categorys = res.data
     },
     async getUser () {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
       const res = await this.API.get('/api/getuser/')
       console.log('res', res)
-      // if (res.code !== 200) {
-      //   return
-      // }
-      // this.Categorys = res.data
+      if (res.code !== 200) {
+        return
+      }
+      this.userInfo = res.data[0]
+      this.getUserArticles()
+    },
+    getUserArticles () {
+      // 将通过用户名搜索文章
+      this.$store.commit('changeSC', this.userInfo.username)
+    }
+  },
+  watch: {
+    activeIndex: function (val) {
+      if (val === '1') {
+        this.getUserArticles()
+      }
     }
   }
 }
