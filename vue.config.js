@@ -9,6 +9,11 @@ module.exports = {
         .entry('app')
         .clear()
         .add('./src/main-prod.js')
+
+      config.set('externals', {
+        vue: 'Vue',
+        'vue-router': 'VueRouter'
+      })
     })
 
     // 开发模式
