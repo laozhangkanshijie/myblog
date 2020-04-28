@@ -71,6 +71,10 @@ import { BASE_URL } from '@/helper/api/env'
 export default {
   name: 'Article',
   props: ['id'],
+  beforeRouteEnter: (to, from, next) => { // 写在当前组件
+    to.meta.keepAlive = false
+    next()
+  },
   data () {
     return {
       baseUrl: BASE_URL,
@@ -83,22 +87,22 @@ export default {
   },
   mounted () {
     console.log(this.id)
-    this.getarticle(this.id)
-    this.getComments(this.id)
+    this.getarticle()
   },
 
   methods: {
     toList () {
-      this.$router.push('/')
+      this.$router.go(-1)
     },
-    async getarticle (id) {
+    async getarticle () {
       // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.API.get('/api/articles/' + id + '/')
+      const res = await this.API.get('/api/articles/' + this.id + '/')
       if (res.code !== 200) {
         return
       }
       console.log('detailres', res)
       this.article = res.data
+      this.getComments(this.id)
     },
     // 获取评论的接口http://localhost:8000/api/comment/?search=1
     async getComments (id) {
@@ -113,11 +117,11 @@ export default {
         return item.pid == null
       })
       this.comments.forEach((item, index) => {
-        const falg = this.allComments.some(item2 => {
+        const flag = this.allComments.some(item2 => {
           return item2.pid === item.id
         })
-        console.log(falg)
-        if (falg) {
+        console.log(flag)
+        if (flag) {
           item.havechild = true
           item.child = this.allComments.filter(item2 => {
             return item2.pid === item.id
@@ -133,6 +137,12 @@ export default {
     // 是否有评论内容
     haveComments () {
       return !this.comments.length
+    }
+  },
+  watch: {
+    id: {
+      handler: 'getarticle', // 调用方法
+      immediate: true // 进入立即执行一次
     }
   }
 }

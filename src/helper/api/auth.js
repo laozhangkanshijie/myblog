@@ -15,7 +15,7 @@ export class Auth {
      * 存储用户登陆之后的 Token。
      */
   static set token (value) {
-    localStorage[TOKEN_KEY] = value
+    localStorage[TOKEN_KEY] = 'Token ' + value
   }
 
   /**

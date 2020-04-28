@@ -7,7 +7,6 @@
             </span>
             <span class="quit" @click="quit">
                 退出
-                <i class="el-icon-close"></i>
             </span>
         </div>
         <el-menu
@@ -31,6 +30,10 @@ export default {
       activeIndex: '1'
     }
   },
+  created () {
+    // this.getUserInfo()
+    this.getUser()
+  },
   methods: {
     back () {
       this.$router.push('/')
@@ -41,6 +44,24 @@ export default {
     },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    async getUserInfo () {
+      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
+      const res = await this.API.get('/api/userinfo/', { token: Auth.token })
+      console.log('res', res)
+      // if (res.code !== 200) {
+      //   return
+      // }
+      // this.Categorys = res.data
+    },
+    async getUser () {
+      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
+      const res = await this.API.get('/api/getuser/')
+      console.log('res', res)
+      // if (res.code !== 200) {
+      //   return
+      // }
+      // this.Categorys = res.data
     }
   }
 }
@@ -58,6 +79,7 @@ export default {
     }
     .quit {
         float: right;
+        text-decoration: underline;
     }
 }
 </style>

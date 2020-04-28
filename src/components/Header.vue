@@ -25,8 +25,8 @@
 
         <div class="menu" v-if="isMenu && !isSearch">
             <el-button-group>
-                <el-button>首页</el-button>
-                <el-button>分类</el-button>
+                <el-button @click="toHome">首页</el-button>
+                <el-button @click="toCategory">分类</el-button>
                 <el-button @click="toMy">个人中心</el-button>
             </el-button-group>
         </div>
@@ -67,23 +67,19 @@ export default {
       this.isMenu = false
       this.input = ''
     },
-    async getarticles () {
-      // get 使用query传入字段，其他请求使用body,这里的get和body是请求参数对象
-      const res = await this.Fetch('/api/articles/', {
-        search: this.input
-      })
-      console.log('res', res)
-      if (res.code !== 0) {
-        return
-      }
-      this.searchReslut = res.data.data
-    },
     showMenu () {
       this.isMenu = !this.isMenu
+    },
+    toHome () {
+      this.$router.go(0)
     },
     toMy () {
       console.log('my')
       this.$router.push('my')
+    },
+    toCategory () {
+      console.log('my')
+      this.$router.push('category')
     }
   }
 }

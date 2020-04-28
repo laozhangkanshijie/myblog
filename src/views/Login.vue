@@ -76,8 +76,11 @@ export default {
           _this.loading = false
           _this.loadingtext = '登录'
           _this.$message.success('登录成功')
+          // 先清除token
+          Auth.clear()
           // 保存token
           Auth.token = res.data.token
+          // 记得这里可以存用户名和id
           // ！！！ query在$route里
           const redirect = decodeURIComponent(_this.$route.query.redirect || '/')
           _this.$router.push(redirect)
