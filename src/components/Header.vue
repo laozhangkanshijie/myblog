@@ -1,9 +1,10 @@
 <template>
     <div class="siteHeader">
         <div class="Yarn_Background"></div>
-        <el-backtop :visibility-height="150" style="right: 30px; bottom: 30px;">
+        <!-- <el-backtop :visibility-height="150" style="right: 30px; bottom: 30px;">
             <i class="el-icon-caret-top"></i>
-        </el-backtop>
+        </el-backtop> -->
+        <!-- element2.8.2没有返回顶部 -->
         <div class="search" v-if="!isSearch">
             <i class="js-toggle-search iconfont" @click="isSearch=true"></i>
         </div>

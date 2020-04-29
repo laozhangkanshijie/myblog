@@ -1,6 +1,6 @@
 <template>
     <div class="articleDetail">
-        <div >
+        <div>
             <span class="backBox" @click="toList">
                 <i class="el-icon-arrow-left"></i>
                 返回
@@ -24,10 +24,12 @@
                 </el-collapse-item>
             </el-collapse>-->
             <ol class="commentlist">
-                <div class="" v-if="haveComments">暂无评论</div>
+                <div class v-if="haveComments">暂无评论</div>
                 <li v-for="item in comments" :key="item.id">
                     <div class="top">
-                        <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
+                        <span class="avatar">
+                            <img :src="baseUrl +'/'+ item.avatar_link" alt />
+                        </span>
                         <span class="time">{{item.username}}</span>
                     </div>
                     <div></div>
@@ -37,18 +39,20 @@
                             <span>{{item.date_publish}}</span>
                         </p>
                     </div>
-                    <div class="reply" v-if="item.havechild" @click="ismorecomments = !ismorecomments">
+                    <div
+                        class="reply"
+                        v-if="item.havechild"
+                        @click="ismorecomments = !ismorecomments"
+                    >
                         展开回复
                         <i class="el-icon-caret-bottom"></i>
                     </div>
                     <ol v-show="ismorecomments">
                         <li v-for="i in item.child" :key="i.id">
                             <div class="top">
-                                <el-avatar
-                                    fit="cover"
-                                    shape="square"
-                                    :src="baseUrl +'/'+ i.avatar_link"
-                                ></el-avatar>
+                                <span class="avatar">
+                                    <img :src="baseUrl +'/'+ i.avatar_link" alt />
+                                </span>
                                 <span class="time">{{i.username}}</span>
                             </div>
                             <div></div>
@@ -72,7 +76,8 @@ import { BASE_URL } from '@/helper/api/env'
 export default {
   name: 'Article',
   props: ['id'],
-  beforeRouteEnter: (to, from, next) => { // 写在当前组件
+  beforeRouteEnter: (to, from, next) => {
+    // 写在当前组件
     to.meta.keepAlive = false
     next()
   },
@@ -176,6 +181,20 @@ export default {
     }
     .top {
         // text-align: center;
+        .avatar {
+            display: inline-block;
+            box-sizing: border-box;
+            text-align: center;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+            img {
+                display: block;
+                height: 100%;
+                vertical-align: middle;
+            }
+        }
         span {
             line-height: 100%;
         }
