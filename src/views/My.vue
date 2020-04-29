@@ -19,7 +19,9 @@
         <Articles v-if="activeIndex === '1'"></Articles>
 
         <div class="userInfo" v-if="activeIndex === '2'">
-            <el-avatar fit="cover" shape="square" :src="userInfo.avatar"></el-avatar>
+            <span class="avatar">
+                  <img :src="userInfo.avatar" alt="">
+            </span>
             <div class="userName">
                 <span>{{userInfo.username}}</span>
                 <div>邮箱：{{userInfo.email ? userInfo.email:'暂无'}}</div>
@@ -49,6 +51,7 @@ export default {
   methods: {
     back () {
       this.$router.push('/')
+      this.$store.commit('changeSC', '')
     },
     quit () {
       Auth.clear()
@@ -100,5 +103,21 @@ export default {
         float: right;
         text-decoration: underline;
     }
+}
+.userInfo {
+  .avatar {
+          display: inline-block;
+          box-sizing: border-box;
+          text-align:center;
+          width: 50px;
+          height: 50px;
+          line-height: 40px;
+          font-size: 14px;
+          img {
+              display: block;
+              height: 100%;
+              vertical-align: middle;
+            }
+        }
 }
 </style>

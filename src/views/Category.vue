@@ -49,6 +49,7 @@ export default {
   methods: {
     back () {
       this.$router.go(-1)
+      this.$store.commit('changeSC', '')
     },
     handleClick (tab, event) {
       console.log(tab.label, event)

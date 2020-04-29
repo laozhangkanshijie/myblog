@@ -5,7 +5,9 @@
       </div>
         <el-card class="box-card" v-for="item in articles" :key="item.id">
             <div class="titleBox">
-                <el-avatar fit="cover" shape="square" :src="baseUrl +'/'+ item.avatar_link"></el-avatar>
+                <span class="avatar">
+                  <img :src="baseUrl +'/'+ item.avatar_link" alt="">
+                </span>
                 <span class="title" @click="toDetail(item.id)">{{item.title}}</span>
             </div>
             <div class="userName">
@@ -122,7 +124,20 @@ export default {
             #fff 85%
         );
         border-radius: 6px 6px 0 0;
-
+        .avatar {
+          display: inline-block;
+          box-sizing: border-box;
+          text-align:center;
+          width: 40px;
+          height: 40px;
+          line-height: 40px;
+          font-size: 14px;
+          img {
+              display: block;
+              height: 100%;
+              vertical-align: middle;
+            }
+        }
         .title {
             display: inline-block;
             padding: 10px;
