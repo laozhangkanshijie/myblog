@@ -1,5 +1,8 @@
 # myblog
 
+## 项目后端地址 https://github.com/laozhangkanshijie/myblog-server
+## 项目线上地址 http://zh.doglikescat.com/
+
 ## Project setup
 ```
 npm install
