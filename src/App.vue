@@ -75,6 +75,14 @@ input[type="search"] {
     width: 100%;
 }
 
+a {
+    color: black;
+    text-decoration:none;
+}
+a:hover {
+    color:aliceblue;
+}
+
 @font-face {
     font-family: "iconfont";
     src: url(./assets/fonts/iconfont.eot);

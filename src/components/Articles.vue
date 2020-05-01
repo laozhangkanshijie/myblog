@@ -1,5 +1,5 @@
 <template>
-    <div class="articles">
+    <div class="articles" v-loading="loading">
       <div v-if="articles.length === 0">
         没有文章哦！
       </div>
@@ -39,7 +39,8 @@ export default {
       limit: 3,
       offset: 0,
       articles: [],
-      article: {}
+      article: {},
+      loading: true
     }
   },
   created () {
@@ -63,11 +64,13 @@ export default {
       })
 
       if (res.code !== 200) {
+        this.loading = false
         return
       }
       console.log(res)
       this.articles = res.data.data
       this.total = res.data.total
+      this.loading = false
     },
     pageChange (page) {
       console.log('pageChange')

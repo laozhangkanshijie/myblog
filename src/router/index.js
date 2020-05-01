@@ -48,10 +48,7 @@ const routes = [
   {
     path: '/category',
     name: 'category',
-    component: Category,
-    meta: {
-      role: true
-    }
+    component: Category
   },
   {
     path: '/my',
