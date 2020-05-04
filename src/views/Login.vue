@@ -12,7 +12,7 @@
                 class="login_form"
             >
                 <el-form-item prop="username">
-                    <div>账号：zhanghao3</div>
+                    <div>账号：zhanghao</div>
                     <el-input v-model="loginForm.username"></el-input>
                 </el-form-item>
                 <el-form-item prop="password">
