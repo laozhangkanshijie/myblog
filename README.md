@@ -1,6 +1,6 @@
 # myblog
 
-### 技术栈：vue2 + vuex + vue-router + vue-CLI + ES6/7 + fetch + lass + flex
+### 技术栈：Vue2 + Vuex + Vue-Router + Vue-CLI + Element-ui + ES6/7 + fetch + lass + flex
 
 ## 项目后端地址 https://github.com/laozhangkanshijie/myblog-server
 ## 项目线上地址 http://zh.doglikescat.com/
