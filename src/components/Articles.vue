@@ -28,6 +28,7 @@
 
 <script>
 import { BASE_URL } from '@/helper/api/env'
+import { Auth } from '@/helper/api/auth'
 
 export default {
   name: 'Articles',
@@ -64,6 +65,7 @@ export default {
       })
 
       if (res.code !== 200) {
+        Auth.clear()
         this.loading = false
         return
       }
