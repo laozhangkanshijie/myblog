@@ -6,7 +6,7 @@
 let baseUrl = ''
 // const routerMode = 'history'
 if (process.env.NODE_ENV === 'development') {
-  baseUrl = 'http://127.0.0.1:8000'
+  baseUrl = 'http://zh.doglikescat.com:8082'
 } else {
   baseUrl = 'http://zh.doglikescat.com:8082'
 }

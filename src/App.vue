@@ -83,6 +83,10 @@ a:hover {
     color:aliceblue;
 }
 
+div {
+    white-space: pre-wrap;
+}
+
 @font-face {
     font-family: "iconfont";
     src: url(./assets/fonts/iconfont.eot);
